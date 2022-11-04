@@ -1,0 +1,1 @@
+const worker1 = new Worker("./worker.js");

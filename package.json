@@ -1,0 +1,17 @@
+{
+  "name": "alfaplot",
+  "version": "1.0.0",
+  "description": "Universe from alphabet E={0,1} and 1's count plotted",
+  "main": "./app/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Maskla",
+  "license": "ISC",
+  "devDependencies": {
+    "buffer": "^6.0.3",
+    "electron": "^20.1.0",
+    "plotly.js": "^2.14.0"
+  }
+}
