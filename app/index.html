@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src *; style-src 'self' 'unsafe-inline'; img-src 'self' 'unsafe-inline'">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src *; style-src 'self' 'unsafe-inline'; img-src * data:">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/styles/normalize.css">
     <link rel="stylesheet" href="assets/styles/css2.css">
@@ -15,20 +15,56 @@
 
 <body>
     <div id="root">
-        <form>
-            <label for="mith">Introduce n-ith power: </label>
-            <input name="mith" id="mith" min="0" max="1000" type="number" value="2" />
-            <input id="plotter" type="button" value="Plot">
-        </form>
-        <div id="progress"></div>
-        <h2>Graphic</h2>
-        <div id="plot"></div>
-        <div>
-            <h2>Universe Maked</h2>
-            <div id="file_viewer"></div>
+        <div class="data-container">
+            <h1>Alfaplot</h1>
+            <div>
+                <form>
+                    <label for="mith">Introduce n-ith power: </label>
+                    <input name="mith" id="mith" min="0" max="1000" type="number" value="2" />
+                    <input id="plotter" type="button" value="Plot">
+                </form>
+                <div id="progress" class="loader-wrapper">
+                    <div class="load-status">Waiting</div>
+                    <div class="loader-bar-wrapper">
+                        <div class="loader-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="graphics" class="data-container">
+            <h2>Graphics</h2>
+            <div>
+                <div id="plot-binary"></div>
+                <div class="page-controller-wrapper">
+                    <button class="prev-page"></button>
+                    <div>
+                        <span class="current-page">0</span>
+                        <span>/</span>
+                        <span class="pages">0</span>
+                    </div>
+                    <button class="next-page"></button>
+                </div>
+            </div>
+            <div>
+                <div id="plot-decimal"></div>
+                <div id="progress-merged" class="loader-wrapper">
+                    <div class="load-status">Waiting</div>
+                    <div class="loader-bar-wrapper">
+                        <div class="loader-bar"></div>
+                    </div>
+                </div>
+                <div class="page-controller-wrapper">
+                    <button class="prev-page"></button>
+                    <div>
+                        <span class="current-page">0</span>
+                        <span>/</span>
+                        <span class="pages">0</span>
+                    </div>
+                    <button class="next-page"></button>
+                </div>
+            </div>
         </div>
     </div>
-    <h1>Alfa Universe</h1>
 </body>
 
 </html>

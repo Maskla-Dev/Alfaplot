@@ -29,9 +29,6 @@ class PrinterController {
     set mPages(pages) {
         this.#mPages = pages;
     }
-    clearScreen() {
-        this.#mViewer.innerHTML = "";
-    }
     set mCurrentCluster(cluster) {
         this.#mCurrentCluster = cluster;
     }

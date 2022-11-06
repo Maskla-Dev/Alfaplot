@@ -2,10 +2,6 @@ const Plotly = require("plotly.js");
 const UniverseController = require("./UniverseController.js");
 const PrinterController = require("./PrinterController");
 
-let mith = document.getElementById("mith");
-let plotter = document.getElementById("plotter");
-let file_viewer = document.getElementById("file_viewer");
-let progress_container = document.getElementById("progress");
 let Printer = new PrinterController(1000, file_viewer);
 
 plotter.addEventListener('click', (e) => {
