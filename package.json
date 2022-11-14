@@ -10,6 +10,7 @@
   "author": "Maskla",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^18.11.9",
     "buffer": "^6.0.3",
     "electron": "^20.1.0",
     "plotly.js": "^2.14.0"

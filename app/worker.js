@@ -1,32 +1,38 @@
-const UniverseController = require("./UniverseController.js");
+const UniverseConstructor = require("./js/UniverseConstructor");
+const { UpdateType, Activities } = require("./js/utils/helpers");
+const god = new UniverseConstructor("01", updateStatus);
 
 onmessage = (e) => {
-    if (typeof e.data === "number") {
-        initMainProgram(e.data);
+    if (typeof e.data.activity == "number") {
+        switch (e.data.activity) {
+            case Activities.init_construction:
+                god.makeClusters(e.data.payload.mith);
+                informJobDone(Activities.construction_done);
+                break;
+            case Activities.init_merge:
+                god.mergeClusters(e.data.payload.mith);
+                updateStatus(UpdateType.done, undefined);
+                informJobDone(Activities.merge_done);
+                break;
+            default:
+                console.log(`Worker does not know about ${e.data.activity} activity`);
+                break;
+        }
     }
 }
 
-function initMainProgram(clusters) {
-    console.log(`Worker needs generate ${Math.pow(2, clusters)} galaxies`);
-    let AlphaUniverse = new UniverseController(requestUpdateLoader);
-    AlphaUniverse.createClusters(clusters);
-    requestEnd();
-}
-
-function requestEnd() {
+function updateStatus(type, status) {
     postMessage({
-        activity: "end",
-    })
+        activity: Activities.update_status,
+        payload: {
+            target: type,
+            status: status
+        }
+    });
 }
 
-function requestUpdateLoader(value) {
+function informJobDone(job) {
     postMessage({
-        activity: "update-loader",
-        value: Number(value)
-    })
-}
-
-module.exports = {
-    requestEnd: requestEnd,
-    requestUpdateLoader: requestUpdateLoader
+        activity: job
+    });
 }

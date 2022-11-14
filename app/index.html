@@ -8,30 +8,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/styles/normalize.css">
     <link rel="stylesheet" href="assets/styles/css2.css">
-    <link rel="stylesheet" href="assets/styles/index.css">
+    <!-- <link rel="stylesheet" href="assets/styles/index.css"> -->
     <title>Alfa Universe</title>
     <script src="renderer.js" defer></script>
 </head>
 
 <body>
     <div id="root">
-        <div class="data-container">
-            <h1>Alfaplot</h1>
-            <div>
-                <form>
-                    <label for="mith">Introduce n-ith power: </label>
-                    <input name="mith" id="mith" min="0" max="1000" type="number" value="2" />
-                    <input id="plotter" type="button" value="Plot">
-                </form>
-                <div id="progress" class="loader-wrapper">
-                    <div class="load-status">Waiting</div>
-                    <div class="loader-bar-wrapper">
-                        <div class="loader-bar"></div>
-                    </div>
+        <h1>Alfaplot</h1>
+        <div>
+            <form>
+                <label for="mith">Introduce n-ith power: </label>
+                <input name="mith" id="mith" min="0" max="1000" type="number" value="2" />
+                <input id="plotter" type="button" value="Plot">
+            </form>
+            <div id="progress" class="loader-wrapper">
+                <div class="load-status">
+                    <div>Current Cluster: <span class="cluster">Waiting</span></div>
+                    <div>Appending Letter: <span class="letter">Waiting</span></div>
+                    <div>Current Galaxy: <span class="galaxy">Waiting</span></div>
+                    <div>Merge: <span class="merge">Waiting</span></div>
+                </div>
+                <div class="loader-bar-wrapper">
+                    <div class="loader-bar"></div>
                 </div>
             </div>
         </div>
-        <div id="graphics" class="data-container">
+        <div id="log2"></div>
+        <div id="log10"></div>
+        <!-- <div id="graphics" class="data-container">
             <h2>Graphics</h2>
             <div>
                 <div id="plot-binary"></div>
@@ -63,7 +68,7 @@
                     <button class="next-page"></button>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </body>
 
