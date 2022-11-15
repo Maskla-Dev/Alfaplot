@@ -9,18 +9,20 @@ class Astronome extends BaseUniverse {
     #mGraphContainer;
     #mUntilMith;
     #mCallback;
+    #mTitle = "Log"
     constructor(graph_container, until_mith, callback = undefined, alphabet = "01", max_elements_per_page = 10000) {
         super(alphabet);
         this.#mMaxElementsPerPage = max_elements_per_page;
         this.#mGraphContainer = graph_container;
         this.#mCallback = callback;
+        this.#mTitle += until_mith;
         this.#makeButtons();
         this.updatePages();
     }
     #makeGraph() {
         let data = this.#getGraphData(this.#getFrom(), this.#getTo());
         let plot_layout = {
-            title: `1s count from E^1 to E^${this.#mUntilMith} (page ${this.#mCurrentPage} of ${this.#mTotalPages})`,
+            title: `${this.#mCallback ? this.#mTitle : ""} of 1s count from E^1 to E^${this.#mUntilMith} (page ${this.#mCurrentPage} of ${this.#mTotalPages})`,
             xaxis: {
                 autotypenumbers: "strict"
             }
@@ -34,34 +36,31 @@ class Astronome extends BaseUniverse {
             mode: `lines${this.#mCallback ? "+markers" : ""}`,
             name: "1\'s count"
         };
-        let current_mith = BaseUniverse.getMith(from, this.alphabet.length);
-        let current_item = !this.#mCallback ? Math.pow(2, current_mith) - from : 0;
-        console.log(current_item, current_mith);
-        let star = "";
+        let galaxy = "";
         let tmp = 0;
-        for (let i = from; i <= to; ++i) {
-            if (!this.#mCallback) {
+        if(!this.#mCallback){
+            let current_mith = BaseUniverse.getMith(from, this.alphabet.length);
+            let current_item = Math.pow(2, current_mith) - (from - BaseUniverse.getMithSum(current_mith - 1));
+            for (let i = from; i <= to; ++i) {
                 if (current_item > Math.pow(2, current_mith)) {
                     ++current_mith;
                     current_item = 1;
                 }
+                galaxy = this.getGalaxy(current_mith, current_item - 1, current_mith);
+                data.x.push(galaxy);
+                tmp = BaseUniverse.countStars(galaxy);
+                data.y.push(tmp);
+                ++current_item;
             }
-            star = this.getGalaxy(!this.#mCallback ? current_mith : "merged", current_item - 1, !this.#mCallback ? current_mith : BaseUniverse.LOG_WORD_LENGTH);
-            data.x.push(star);
-            tmp = BaseUniverse.countStars(star);
-            data.y.push(this.#mCallback ? this.#mCallback(tmp) : tmp);
-            ++current_item;
         }
-        // if (this.#mCallback) {
-        //     if (current_item * 64 != to * 64) {
-        //         buffer.fill("0");
-        //         fs.readSync(file, buffer, {
-        //             position: current_item * 64
-        //         });
-        //         data.x.push(buffer.toString("utf-8"));
-        //         data.y.push(this.#mCallback(BaseUniverse.countStars(buffer.toString("utf-8"))));
-        //     }
-        // }
+        else{
+            for(let i = from; i <= to; ++i){
+                galaxy = this.getGalaxy("merged", i, BaseUniverse.LOG_WORD_LENGTH);
+                data.x.push(galaxy);
+                tmp = BaseUniverse.countStars(galaxy);
+                data.y.push(this.#mCallback(tmp));
+            }
+        }
         return data;
     }
     #getFrom() {
@@ -80,11 +79,9 @@ class Astronome extends BaseUniverse {
             <button class="next">next</button>`;
         buttons_container.getElementsByClassName("next")[0].addEventListener("click", () => {
             this.goPage(this.#mCurrentPage + 1);
-            console.log(this.#mCurrentPage + 1);
         });
         buttons_container.getElementsByClassName("prev")[0].addEventListener("click", () => {
             this.goPage(this.#mCurrentPage - 1);
-            console.log(this.#mCurrentPage);
         });
         this.#mGraphContainer.appendChild(buttons_container);
         this.#mGraphContainer.appendChild(graph);
@@ -98,7 +95,7 @@ class Astronome extends BaseUniverse {
     }
     updatePages(until_mith) {
         this.#mUntilMith = this.checkFiles(until_mith, false) - 1;
-        this.#mTotalPages = Math.ceil(BaseUniverse.getMithSum(this.#mUntilMith) / this.#mMaxElementsPerPage);
+        this.#mTotalPages = Math.ceil((BaseUniverse.getMithSum(this.#mUntilMith, this.#mCallback != undefined) / (this.#mCallback ? 65 : 1)) / this.#mMaxElementsPerPage);
         this.#mCurrentPage = (this.#mCurrentPage > this.#mTotalPages) ? this.#mTotalPages : this.#mCurrentPage;
         this.#mGraphContainer.getElementsByClassName("total")[0].innerHTML = this.#mTotalPages;
         this.#mGraphContainer.getElementsByClassName("current")[0].innerHTML = this.#mCurrentPage;
