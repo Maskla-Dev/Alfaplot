@@ -98,6 +98,13 @@ class BaseUniverse {
             nith_galaxie += Math.pow(alphabet_length, i);
         return nith_galaxie;
     }
+    static getMithSum(mith, multiply = false) {
+        let sum = 0;
+        for (let i = 1; i <= mith; ++i) {
+            sum += Math.pow(2, i) * (multiply ? i : 1);
+        }
+        return sum;
+    }
 }
 
 module.exports = BaseUniverse;

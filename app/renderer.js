@@ -1,15 +1,22 @@
-const Plotly = require("plotly.js");
 const { UpdateType, Activities } = require("./js/utils/helpers");
+const Astronome = require("./js/Astronome");
 
 let mith = document.getElementById("mith");
 let progress_container = document.getElementById("progress");
 let plotter = document.getElementById("plotter");
-// let graphics = document.getElementById("graphics");
-// let progress_merged = document.getElementById("progress-merged");
+let normal = document.getElementById("normal");
+let log2 = document.getElementById("log2");
+let log10 = document.getElementById("log10");
+
+const normal_graph = new Astronome(normal, 1);
+// const log2_graph = new Astronome(log2, 1, value => Math.log2(value));
+// const log10_graph = new Astronome(log10, 1, value => Math.log10(value));
+
 
 let worker = new Worker("./worker.js");
 worker.onmessage = mainWorkerListener;
 let total_clusters;
+
 
 plotter.addEventListener("click", () => {
     total_clusters = Number(mith.value);
@@ -62,9 +69,13 @@ function mainWorkerListener(e) {
                         mith: total_clusters
                     }
                 });
+                normal_graph.updatePages();
                 break;
             case Activities.merge_done:
                 updateStatus(UpdateType.done, undefined);
+                // log2_graph.updatePages();
+                // log10_graph.updatePages();
+                break;
         }
     }
 }

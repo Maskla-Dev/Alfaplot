@@ -10,7 +10,7 @@ onmessage = (e) => {
                 informJobDone(Activities.construction_done);
                 break;
             case Activities.init_merge:
-                god.mergeClusters(e.data.payload.mith);
+                god.collideClusters(e.data.payload.mith);
                 updateStatus(UpdateType.done, undefined);
                 informJobDone(Activities.merge_done);
                 break;

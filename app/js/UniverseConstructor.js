@@ -14,7 +14,8 @@ class UniverseConstructor extends BaseUniverse {
         }
     }
     makeClusters(until_mith) {
-        let last_cluster = this.checkFiles(until_mith) - 1;
+        let last_cluster = this.checkFiles(until_mith);
+        console.log(last_cluster);
         let galaxy = "";
         for (let current_cluster = last_cluster; current_cluster <= until_mith; ++current_cluster) {
             this.mStatusUpdater ? this.mStatusUpdater(UpdateType.cluster, String(current_cluster)) : undefined;
@@ -34,7 +35,7 @@ class UniverseConstructor extends BaseUniverse {
     #closeCluster(cluster) {
         fs.appendFileSync(this.getFullFileName(cluster), "}");
     }
-    mergeClusters(until_mith) {
+    collideClusters(until_mith) {
         this.initCluster("merged");
         let galaxy = "";
         for (let current_cluster = 1, work_done = 0, total_work = BaseUniverse.getTotalGalaxies(this.alphabet.length, until_mith); current_cluster <= until_mith; ++current_cluster) {
